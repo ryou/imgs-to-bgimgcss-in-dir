@@ -1,1 +1,1 @@
-module.exports = require('./async');
+module.exports = require('./libs/createCssFromImages/async');

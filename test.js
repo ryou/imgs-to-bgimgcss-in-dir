@@ -1,4 +1,4 @@
-const createCssFileFromImages = require('./async');
+const createCssFileFromImages = require('./index');
 
 createCssFileFromImages(
   './test/assets/images',
