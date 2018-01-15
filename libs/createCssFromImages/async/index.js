@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const mime = require('mime');
 const postcss = require('postcss');
+const _ = require('lodash');
 
 const createCssFromImage = async (directory, fileName, className) => {
   const filePath = `${directory}/${fileName}`;
@@ -31,14 +32,21 @@ const createCssFileFromImages = async (directory, outputFilePath, className) => 
   const files = await fs.readdir(directory);
   const imgFiles = files.filter(file => isImg(file));
 
-  const cssArray = [];
+  let cssArray = [];
   const promises = [];
   imgFiles.forEach((file) => {
     const promise = createCssFromImage(directory, file, className)
-      .then(css => cssArray.push(css));
+      .then((css) => {
+        cssArray.push({
+          file,
+          css,
+        });
+      });
     promises.push(promise);
   });
   await Promise.all(promises);
+
+  cssArray = _.sortBy(cssArray, ['file']);
   const cssString = cssArray.join('\n');
   fs.outputFile(outputFilePath, cssString);
 };
