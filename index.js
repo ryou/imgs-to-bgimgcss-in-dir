@@ -1,1 +1,1 @@
-module.exports = require('./libs/createCssFromImages/async');
+module.exports = require('./libs/createCssFromImages');
